@@ -4,7 +4,6 @@ import com.learningSpring.Clothes_API.Mappers.clothesRowMapper;
 import com.learningSpring.Clothes_API.entity.clothes;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
-
 import java.util.List;
 
 
@@ -37,6 +36,23 @@ public class clothes_CRUDImpl implements clothes_CRUD{
         return  jdbcTemplate.queryForObject(sql,mapper,id);
     }
 
+    @Override
+    public List<clothes> findByName(String name) {
+        String sql = "select * from productos_ropa where nombre = ?";
+        return jdbcTemplate.query(sql,mapper,name);
+    }
+
+    @Override
+    public boolean deleteClothe(Long id) {
+        String sql = "delete from productos_ropa where id = ?";
+        return jdbcTemplate.update(sql,id) == 1;
+    }
+
+    @Override
+    public boolean updateClothes(Long id,clothes arg) {
+        String sql = "update from productos_ropa where id = ?";
+        return jdbcTemplate.update(sql,id) == 1;
+    }
 
 
 }

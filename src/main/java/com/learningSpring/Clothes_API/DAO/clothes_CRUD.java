@@ -10,4 +10,7 @@ public interface clothes_CRUD {
     public List<clothes> findAll();
     public void create(clothes args);
     public clothes findByID(Long id);
+    public List<clothes> findByName(String name);
+    public boolean deleteClothe(Long id);
+    public boolean updateClothes(Long id,clothes arg);
 }

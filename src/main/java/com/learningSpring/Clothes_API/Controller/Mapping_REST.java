@@ -5,6 +5,7 @@ import com.learningSpring.Clothes_API.entity.clothes;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -14,10 +15,11 @@ public class Mapping_REST {
     public clothes_CRUD repo;
 
     @GetMapping("/clothes")
-    public Iterable<clothes> clothes(){
-        Iterable<clothes> x =  repo.findAll();
-        System.out.println(x);
-        return x;
+    public List<clothes> clothes(@RequestParam(required = false)String nombre){
+        if(nombre!=null && !nombre.isEmpty()){
+            return repo.findByName(nombre);
+        }
+        return  repo.findAll();
     }
 
     @PostMapping("/clothes")
@@ -30,12 +32,15 @@ public class Mapping_REST {
         return repo.findByID(id);
     }
 
-    @DeleteMapping("/clothes")
-    public Optional<clothes> delete(@RequestParam Long id){
-
-        return null;
+    @DeleteMapping("/clothes/{id}")
+    public boolean deleteClotheId(@PathVariable Long id){
+        return repo.deleteClothe(id);
     }
 
+    @PutMapping("/clothes")
+    public boolean updateClothe(@RequestBody clothes arg){
+       return repo.updateClothes(arg.getId(),arg);
+    }
 
 }
 
